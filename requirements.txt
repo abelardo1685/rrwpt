@@ -1,0 +1,21 @@
+# =============================================================================
+# Dependencias — Transient Probabilistic Delineation
+# Instalar con:  pip install -r requirements.txt
+# (probado con las versiones indicadas entre paréntesis)
+# =============================================================================
+
+# --- Núcleo de cómputo (paquete rrwpt) ---
+numpy>=1.24            # (probado: 2.4.1)
+scipy>=1.10            # special, interpolate, sparse, io.loadmat  (probado: 1.17.0)
+
+# --- Gráficas y notebook ---
+matplotlib>=3.7        # figuras y mapas                            (probado: 3.10.8)
+imageio>=2.30          # generación del video (GIF) de partículas   (probado: 2.37.3)
+
+# --- Solver multigrid (OPCIONAL, recomendado para 3D) ---
+# Si no está instalado, el código usa scipy.sparse.linalg.spsolve.
+pyamg>=5.0             # (probado: 5.3.0)
+
+# --- Entorno Jupyter (para ejecutar los notebooks) ---
+jupyterlab>=4.0
+ipykernel>=6.0

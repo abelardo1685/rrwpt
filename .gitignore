@@ -1,0 +1,23 @@
+# Salidas generadas por las simulaciones (conserva la carpeta vacía)
+results/*
+!results/.gitkeep
+resultados/
+
+# Caches de Python
+__pycache__/
+*.py[cod]
+.ipython/
+
+# Checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Metadatos de Windows (WSL)
+*:Zone.Identifier
+
+# Sistema
+.DS_Store
