@@ -1,0 +1,40 @@
+# CI de rrwpt — listo para activarse al publicar el repositorio en GitHub.
+# No hay publicación automática a PyPI: solo lint + tests (los tests `slow`
+# de regeneración a malla completa quedan excluidos por pyproject addopts).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package (dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: ruff check src/ tests/
+
+      - name: Tests (pytest, sin marcados slow)
+        run: pytest tests/ -v
+
+      - name: Build sdist + wheel
+        run: |
+          pip install build
+          python -m build

@@ -14,3 +14,26 @@ Coordinación (formato en PROTOCOLO_SESIONES.md §ARRANQUE).
 Territorio: manuscrito/reportes, notebooks, figuras en discusión, exploratorio etiquetado.
 NO tocar: experiments/, configs/, Makefile, resultados/ existentes, datos crudos, código en
 cuarentena. Corridas largas y agentes pesados = Sesión Coordinadora.
+
+## Estado actual (2026-07-02)
+- **Paquete instalable listo (v0.1.0.dev0)**: layout `src/rrwpt/` (copia
+  byte-idéntica de la fuente de verdad salvo `__version__`; ADR-002),
+  `pyproject.toml` (deps mínimas: numpy+scipy; extras `[fast]`=pyamg,
+  `[dev]`, `[docs]`), LICENSE (MIT **provisional**, ADR-003), CITATION.cff
+  (método: Rodríguez-Pretelín & Nowak 2018, AWR, 10.1016/j.advwatres.2018.07.005),
+  README en inglés. Verificado: `pip install -e .` + `python -m build` OK.
+- **Tests**: 20 tests pytest (19 rápidos, ~1 s, todos pasan; 1 marcado `slow`
+  = regeneración de paridad a malla completa, ~2 h, opt-in con `pytest -m slow`).
+  Datos de validación MATLAB↔Python en `tests/data/` (12 MB versionados,
+  ADR-005; procedencia en `tests/data/README.md`). Estrategia de paridad en
+  dos niveles: ADR-006.
+- **CI**: `.github/workflows/ci.yml` (ruff + pytest + build en Python 3.11).
+  NO publicado aún (ni GitHub ni PyPI).
+- **Docs**: `docs/{quickstart,api,theory}.md` (theory = método 2018 con las
+  ecuaciones del RWPT inverso). ADRs 001-006 en `docs/decisiones.md`.
+- **Makefile**: adaptado a proyecto de software (`env, test, test-smoke,
+  test-slow, lint, build, check`).
+- **Pendientes que requieren decisión del usuario**: (1) licencia final
+  (MIT es placeholder), (2) nombre en PyPI (verificar disponibilidad de
+  `rrwpt`), (3) momento de publicar en GitHub/activar CI. Además: exportar el
+  subset benchmark 2,000 pares (A1 → Zenodo) sigue pendiente.

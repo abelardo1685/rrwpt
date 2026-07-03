@@ -1,60 +1,49 @@
 # ============================================================
-# Makefile canónico del laboratorio HIDRA
-# Reproducción completa:  make reproduce
-# Verificación rápida:    make reproduce-smoke   (<15 min)
+# Makefile — A2: rrwpt como paquete Python instalable
+# (adaptación del Makefile canónico HIDRA a un proyecto de software)
 # ============================================================
 # Convenciones:
-#  - Toda regla es idempotente y reanudable.
-#  - Ninguna regla borra salidas previas (append-only por directorio fechado).
-#  - Las semillas viven en configs/*.yaml, jamás en el código.
+#  - Toda regla es idempotente.
+#  - Los tests `slow` (regeneración a malla completa, ~horas) son opt-in.
+#  - Semillas de los tests: explícitas en el código de tests (documentadas).
 
 PYTHON  ?= python3
 VENV    ?= .venv
 PIP     := $(VENV)/bin/pip
 PY      := $(VENV)/bin/python
 
-.PHONY: env datos experimentos figuras informe reproduce reproduce-smoke test lint clean-env
+.PHONY: env test test-smoke test-slow lint build check clean-env
 
-## Entorno computacional reproducible
+## Entorno de desarrollo: venv + instalación editable con extras dev
 env:
 	$(PYTHON) -m venv $(VENV)
 	$(PIP) install --upgrade pip
-	$(PIP) install -r requirements.lock
-	$(PY) -c "import torch, numpy, scipy; print('entorno OK')"
+	$(PIP) install -e ".[dev,fast]"
+	$(PY) -c "import rrwpt; print('rrwpt', rrwpt.__version__, 'OK')"
 
-## Descarga/generación de datos (con checksum o semilla; ver data/MANIFIESTO.md)
-datos:
-	$(PY) -m src.datos --config configs/datos.yaml
-
-## Todos los experimentos pre-registrados (cada eXX es reanudable)
-experimentos:
-	$(PY) -m experiments.e01 --config configs/e01.yaml
-	# añadir e02, e03, ... aquí
-
-## Figuras y tablas de publicación (regenerables siempre desde resultados/)
-figuras:
-	$(PY) -m figures.build_all
-
-## Informe/manuscrito (LaTeX o docx según proyecto)
-informe:
-	$(MAKE) -C reports/paper || $(PY) -m reports.build_informe
-
-## Cadena completa
-reproduce: env datos experimentos figuras informe
-	@echo "== REPRODUCCIÓN COMPLETA TERMINADA =="
-
-## Versión humo: misma cadena, N reducido (config *_smoke.yaml), <15 min
-reproduce-smoke: env
-	$(PY) -m src.datos --config configs/datos_smoke.yaml
-	$(PY) -m experiments.e01 --config configs/e01_smoke.yaml
-	$(PY) -m figures.build_all --smoke
-	@echo "== HUMO OK =="
-
+## Suite completa rápida (excluye slow por pyproject addopts; <1 min)
 test:
-	$(PY) -m pytest tests/ -q
+	$(PY) -m pytest tests/ -v
 
+## Solo el humo end-to-end (malla 60x60, <60 s)
+test-smoke:
+	$(PY) -m pytest tests/test_pipeline_smoke.py -v
+
+## Paridad MATLAB a malla completa 450x450x4 (~2 h CPU; opt-in)
+test-slow:
+	$(PY) -m pytest tests/ -v -m slow
+
+## Lint (mismo comando que CI)
 lint:
-	$(PY) -m ruff check src/ experiments/ || true
+	$(PY) -m ruff check src/ tests/
+
+## sdist + wheel en dist/
+build:
+	$(PIP) install build
+	$(PY) -m build
+
+## Lo que corre CI: lint + tests + build
+check: lint test build
 
 clean-env:
 	rm -rf $(VENV)
