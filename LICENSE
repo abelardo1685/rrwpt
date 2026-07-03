@@ -2,10 +2,6 @@ MIT License
 
 Copyright (c) 2026 Abelardo Rodríguez-Pretelín
 
-NOTE (internal, remove before publication): MIT is a PLACEHOLDER chosen for
-packaging purposes. The final license is a pending decision by the author
-(see docs/decisiones.md, ADR-003).
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights

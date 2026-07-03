@@ -124,3 +124,10 @@ estocástico).
 
 **Consecuencias.** CI corre en ~1 min; la paridad fuerte queda documentada y
 ejecutable bajo demanda antes de cada release.
+
+## ADR-007 (2026-07-03) — Decisiones de publicación confirmadas por ARP
+**Decisión.** (1) Licencia MIT DEFINITIVA (nota provisional eliminada del LICENSE);
+(2) nombre PyPI: `rrwpt` (verificado libre 2026-07-03); (3) publicación inmediata en GitHub
+sobre el repo existente `transient-probabilistic-delineation`, renombrado a `rrwpt`
+(fusión -s ours: historia antigua preservada, árbol nuevo del paquete); (4) paper a
+Environmental Modelling & Software, autor único ARP; (5) dataset benchmark se libera con A1.

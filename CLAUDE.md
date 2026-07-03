@@ -19,7 +19,7 @@ cuarentena. Corridas largas y agentes pesados = Sesión Coordinadora.
 - **Paquete instalable listo (v0.1.0.dev0)**: layout `src/rrwpt/` (copia
   byte-idéntica de la fuente de verdad salvo `__version__`; ADR-002),
   `pyproject.toml` (deps mínimas: numpy+scipy; extras `[fast]`=pyamg,
-  `[dev]`, `[docs]`), LICENSE (MIT **provisional**, ADR-003), CITATION.cff
+  `[dev]`, `[docs]`), LICENSE (MIT definitiva, ADR-003+007), CITATION.cff
   (método: Rodríguez-Pretelín & Nowak 2018, AWR, 10.1016/j.advwatres.2018.07.005),
   README en inglés. Verificado: `pip install -e .` + `python -m build` OK.
 - **Tests**: 20 tests pytest (19 rápidos, ~1 s, todos pasan; 1 marcado `slow`
