@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use rrwpt, please cite both the software and the method paper below."
+type: software
+title: "rrwpt: transient flow + reverse random-walk particle tracking for probabilistic wellhead protection areas"
+version: 0.1.0.dev0
+date-released: "2026-07-02"
+authors:
+  - family-names: "Rodríguez-Pretelín"
+    given-names: "Abelardo"
+    email: "abelardo.rodriguez.pretelin@gmail.com"
+    affiliation: "Universidad Nacional Autónoma de México (UNAM)"
+license: MIT
+keywords:
+  - groundwater
+  - wellhead protection
+  - random walk particle tracking
+  - transient flow
+  - Monte Carlo
+preferred-citation:
+  type: article
+  title: "Integrating transient behavior as a new dimension to WHPA delineation"
+  authors:
+    - family-names: "Rodríguez-Pretelín"
+      given-names: "Abelardo"
+    - family-names: "Nowak"
+      given-names: "Wolfgang"
+  journal: "Advances in Water Resources"
+  year: 2018
+  volume: 119
+  start: 178
+  end: 187
+  doi: "10.1016/j.advwatres.2018.07.005"

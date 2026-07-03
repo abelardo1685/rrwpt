@@ -17,3 +17,12 @@ outputs/checkpoints/
 *_git_bare/
 .hg/
 *:Zone.Identifier
+
+# excepción: datos de validación MATLAB<->Python (~12 MB, ver tests/data/README.md)
+!tests/data/*.npy
+!tests/data/*.mat
+
+# empaquetado
+dist/
+build/
+*.egg-info/

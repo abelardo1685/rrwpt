@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rrwpt"
+version = "0.1.0.dev0"
+description = "Transient groundwater flow (FEM) + reverse random-walk particle tracking (RWPT) for probabilistic well-head protection area delineation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Abelardo Rodríguez-Pretelín", email = "abelardo.rodriguez.pretelin@gmail.com" },
+]
+keywords = [
+    "groundwater", "hydrogeology", "particle-tracking", "random-walk",
+    "wellhead-protection", "FEM", "geostatistics", "Monte-Carlo",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+# Dependencias mínimas reales (detectadas de los imports del paquete):
+#   numpy  : núcleo numérico + numpy.fft (circulant embedding)
+#   scipy  : sparse/spsolve (FEM), special (Matérn: gamma, besselk),
+#            interpolate (RegularGridInterpolator del RWPT), ndimage
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+# Solver multigrid AMG para mallas 3D grandes (opcional: sin él se usa spsolve)
+fast = ["pyamg>=5.0"]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+    "build>=1.0",
+]
+docs = [
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.0",
+    "mkdocstrings[python]>=0.24",
+]
+
+[project.urls]
+# Placeholder: repositorio aún no publicado (decisión del usuario)
+Homepage = "https://github.com/abelardo-rp/rrwpt"
+Documentation = "https://github.com/abelardo-rp/rrwpt/tree/main/docs"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not slow'"
+markers = [
+    "slow: tests que regeneran mapas a malla completa (~horas); correr con -m slow",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# E741: el código espejo de MATLAB usa nombres de una letra (l, I) a propósito
+select = ["E", "F", "W"]
+ignore = ["E741"]
+
+[tool.ruff.lint.per-file-ignores]
+# src/rrwpt/ es copia byte-idéntica de la fuente de verdad (0.-Simuladores/...)
+# para permitir auditoría por diff (ADR-002): no se reescribe su estilo.
+# E501/E702: líneas largas y ';' del espejo MATLAB. F401/F811: reimport local
+# de fem en el worker de multiproceso (intencional).
+"src/rrwpt/*" = ["E501", "E702"]
+"src/rrwpt/pipeline.py" = ["E501", "E702", "F401", "F811"]
